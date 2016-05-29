@@ -3,7 +3,7 @@
 
 Get the install command for the system packaging manager, e.g. `sudo apt-get install` for Debian-based systems.
 
-`system-install` will try to find which system packaging is installed for the given `process.platform`. If no system package manager is found, an empty string is returned.
+`system-install` will try to find which system packaging is installed for the given `process.platform`. If no system package manager is found, `'your_package_manager install'` is returned.
 
 ## Install
 ```sh
@@ -17,16 +17,12 @@ npm install system-install
 const mngr = require('system-install')();
 /* - 'brew install' on OS X if homebrew is installed.
  * - 'sudo apt-get install' on debian platforms.
- * - '' if no package manager is found.
+ * - 'your_package_manager install' if no package manager is found.
  *
  * Throws if `process.platform` is none of darwin, freebsd, linux, sunos or win32.
  */
 
-if (!mngr) {
-	console.log('Please install pandoc with your package manager.');
-} else {
-	console.log(`Please install pandoc: ${mngr} pandoc`);
-}
+console.log(`Please install pandoc: ${mngr} pandoc`);
 ```
 
 ### CLI

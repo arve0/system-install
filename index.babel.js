@@ -30,6 +30,7 @@ const PKG_MANAGERS = {
  *
  * @returns {string} System packaging install command.
  *                   E.g. 'sudo apg-get install' for Debian based systems.
+ *                   Defaults to 'your_package_manager install' if no package manager is found.
  * @throws Throws if `process.platform` is none of darwin, freebsd, linux, sunos or win32.
  */
 module.exports = function getInstallCmd () {
@@ -47,7 +48,7 @@ module.exports = function getInstallCmd () {
 		}
 	});
 	if (!managers.length) {
-		return '';
+		return 'your_package_manager install';
 	}
 	return INSTALL_CMD[managers[0]];
 }
