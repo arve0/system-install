@@ -7,7 +7,7 @@
     "system-install": "./cli.js"
   },
   "scripts": {
-    "prepublish": "babel --presets es2015 index.babel.js -o index.js",
+    "preversion": "babel --presets es2015 index.babel.js -o index.js && git add index.js",
     "postpublish": "git push && git push --tags"
   },
   "repository": {
