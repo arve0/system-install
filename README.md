@@ -31,6 +31,7 @@ if (!mngr) {
 
 ### CLI
 ```sh
+$ npm i -g system-install
 $ system-install
 brew install
 ```
