@@ -1,3 +1,4 @@
+[![npm version](https://badge.fury.io/js/system-install.svg)](https://badge.fury.io/js/system-install)
 # system-install
 
 Get the install command for the system packaging manager, e.g. `sudo apt-get install` for Debian-based systems.
