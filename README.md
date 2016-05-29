@@ -11,6 +11,8 @@ npm install system-install
 ```
 
 ## Usage
+
+### Node
 ```js
 const mngr = require('system-install')();
 /* - 'brew install' on OS X if homebrew is installed.
@@ -27,11 +29,10 @@ if (!mngr) {
 }
 ```
 
-Check your system with [demo.js](demo.js):
+### CLI
 ```sh
-git clone https://github.com/arve0/system-install
-cd system-install
-node demo.js
+$ system-install
+brew install
 ```
 
 ## Supported package managers
