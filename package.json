@@ -3,6 +3,10 @@
   "version": "0.0.1",
   "description": "Get the install command for the system package manager",
   "main": "index.js",
+  "scripts": {
+    "prepublish": "babel --presets es2015 index.babel.js -o index.js",
+    "postpublish": "git push && git push --tags"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/arve0/system-install.git"
@@ -34,5 +38,9 @@
   "homepage": "https://github.com/arve0/system-install#readme",
   "dependencies": {
     "which": "^1.2.9"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.9.0",
+    "babel-preset-es2015": "^6.9.0"
   }
 }

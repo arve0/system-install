@@ -1,8 +1,6 @@
-'use strict';
+const which = require('which');
 
-var which = require('which');
-
-var INSTALL_CMD = {
+const INSTALL_CMD = {
 	brew: 'brew install',
 	port: 'sudo port install',
 	pkgin: 'sudo pkgin install',
@@ -18,7 +16,7 @@ var INSTALL_CMD = {
 	pkg_add: 'pkg_add'
 };
 
-var PKG_MANAGERS = {
+const PKG_MANAGERS = {
 	darwin: ['brew', 'port', 'pkgin'],
 	win32: ['choco'],
 	linux: ['apt-get', 'yum', 'dnf', 'nix', 'zypper', 'emerge', 'pacman'],
@@ -34,15 +32,15 @@ var PKG_MANAGERS = {
  *                   E.g. 'sudo apg-get install' for Debian based systems.
  * @throws Throws if `process.platform` is none of darwin, freebsd, linux, sunos or win32.
  */
-module.exports = function getInstallCmd() {
-	var managers = PKG_MANAGERS[process.platform];
+module.exports = function getInstallCmd () {
+	let managers = PKG_MANAGERS[process.platform];
 	if (!managers || !managers.length) {
-		throw new Error('unknown platform \'' + process.platform + '\'');
+		throw new Error(`unknown platform '${process.platform}'`);
 	}
-	managers = managers.filter(function (mng) {
+	managers = managers.filter((mng) => {
 		try {
 			// TODO: Optimize?
-			which.sync(mng);
+			which.sync(mng)
 			return true;
 		} catch (e) {
 			return false;
@@ -52,4 +50,4 @@ module.exports = function getInstallCmd() {
 		return '';
 	}
 	return INSTALL_CMD[managers[0]];
-};
+}
