@@ -1,11 +1,11 @@
 {
   "name": "system-install",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Get the install command for the system package manager",
   "main": "index.js",
-	"bin": {
-		"system-install": "./cli.js"
-	},
+  "bin": {
+    "system-install": "./cli.js"
+  },
   "scripts": {
     "prepublish": "babel --presets es2015 index.babel.js -o index.js",
     "postpublish": "git push && git push --tags"
