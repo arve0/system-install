@@ -1,4 +1,5 @@
-[![npm version](https://badge.fury.io/js/system-install.svg)](https://badge.fury.io/js/system-install)
+[![npm version](https://badge.fury.io/js/system-install.svg)](https://badge.fury.io/js/system-install) [![Build Status](https://travis-ci.org/arve0/system-install.svg?branch=master)](https://travis-ci.org/arve0/system-install)
+
 # system-install
 
 Get the install command for the system packaging manager, e.g. `sudo apt-get install` for Debian-based systems.
