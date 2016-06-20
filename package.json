@@ -9,7 +9,7 @@
   "scripts": {
     "preversion": "babel --presets es2015 index.babel.js -o index.js && git add index.js",
     "postpublish": "git push && git push --tags",
-    "test": "node test.js"
+    "test": "node --harmony test.js"
   },
   "repository": {
     "type": "git",
