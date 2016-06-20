@@ -1,3 +1,5 @@
+'use strict';
+
 const which = require('which');
 
 const INSTALL_CMD = {
