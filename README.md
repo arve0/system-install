@@ -47,6 +47,7 @@ brew install
 - [pacman] (ArchLinux)
 - [yum] (fedora)
 - [zypper] (OpenSUSE)
+- [chromebrew] (Chrome OS)
 
 ### OS X
 - [brew]
@@ -72,3 +73,5 @@ brew install
 [pkg]: https://www.freebsd.org/doc/handbook/pkgng-intro.html
 [pkg_add]: https://www.freebsd.org/cgi/man.cgi?query=pkg_add&manpath=FreeBSD+7.2-RELEASE
 [chocolatey]: https://chocolatey.org
+[chromebrew]: https://github.com/skycocker/chromebrew
+
