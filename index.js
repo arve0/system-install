@@ -15,14 +15,13 @@ var INSTALL_CMD = {
 	emerge: 'sudo emerge -a',
 	pacman: 'sudo pacman -S',
 	pkg: 'pkg install',
-	pkg_add: 'pkg_add',
-	crew: 'crew install'
+	pkg_add: 'pkg_add'
 };
 
 var PKG_MANAGERS = {
 	darwin: ['brew', 'port', 'pkgin'],
 	win32: ['choco'],
-	linux: ['apt-get', 'yum', 'dnf', 'nix', 'zypper', 'emerge', 'pacman', 'crew'],
+	linux: ['apt-get', 'yum', 'dnf', 'nix', 'zypper', 'emerge', 'pacman'],
 	freebsd: ['pkg', 'pkg_add'],
 	sunos: ['pkg']
 	// netbsd?

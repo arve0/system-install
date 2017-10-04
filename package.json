@@ -1,6 +1,6 @@
 {
   "name": "system-install",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Get the install command for the system package manager",
   "main": "index.js",
   "bin": {
