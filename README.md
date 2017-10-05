@@ -40,14 +40,14 @@ brew install
 - [pkg_add]
 
 ### Linux
-- [apt-get]: (Debian, Ubuntu)
-- [dnf]: (fedora)
-- [emerge]: (Gentoo)
-- [nix]: (NixOS)
-- [pacman]: (ArchLinux)
-- [yum]: (fedora)
-- [zypper]: (OpenSUSE)
-- [chromebrew]: (Chrome OS)
+- [apt-get] - Debian, Ubuntu
+- [dnf] - fedora
+- [emerge] - Gentoo
+- [nix] - NixOS
+- [pacman] - ArchLinux
+- [yum] - fedora
+- [zypper] - OpenSUSE
+- [chromebrew] - Chrome OS
 
 ### OS X
 - [brew]
