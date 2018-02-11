@@ -54,8 +54,8 @@ module.exports = function getInstallCmd(application) {
 		return 'your_package_manager install';
 	}
     
-    const system_installer = INSTALL_CMD[managers[0]].split(' ');
-    const cmd = system_installer[0];
+    var system_installer = INSTALL_CMD[managers[0]].split(' ');
+    var cmd = system_installer[0];
     if (system_installer[1]) var args = [ system_installer[1] ];
     if (system_installer[2]) var install = [ system_installer[2] ];
     if ((args) && (!install)) var distro = args;
@@ -63,7 +63,7 @@ module.exports = function getInstallCmd(application) {
     if (!args) var distro = [];
     
     if (application) {
-        const spawn = require('child_process').spawnSync;
+        var spawn = require('child_process').spawnSync;
         console.log('Running ' + cmd  + ' ' + distro.concat(['-y', application]));
         var result = spawn(cmd, distro.concat(['-y', application]), { stdio: 'pipe' });
         if (result.error) return new Error(result.error);  
