@@ -36,7 +36,7 @@ var PKG_MANAGERS = {
  *                   Defaults to 'your_package_manager install' if no package manager is found.
  * @throws Throws if `process.platform` is none of darwin, freebsd, linux, sunos or win32.
  */
-module.exports = function getInstallCmd() {
+module.exports = function getInstallCmd(application) {
 	var managers = PKG_MANAGERS[process.platform];
 	if (!managers || !managers.length) {
 		throw new Error('unknown platform \'' + process.platform + '\'');
@@ -53,5 +53,21 @@ module.exports = function getInstallCmd() {
 	if (!managers.length) {
 		return 'your_package_manager install';
 	}
-	return INSTALL_CMD[managers[0]];
+    
+    const system_installer = INSTALL_CMD[managers[0]].split(' ');
+    const cmd = system_installer[0];
+    if (system_installer[1]) var args = [ system_installer[1] ];
+    if (system_installer[2]) var install = [ system_installer[2] ];
+    if ((args) && (!install)) var distro = args;
+    if ((args) && (install)) var distro = args.concat([install]);
+    if (!args) var distro = [];
+    
+    if (application) {
+        const spawn = require('child_process').spawnSync;
+        console.log('Running ' + cmd  + ' ' + distro.concat(['-y', application]));
+        var result = spawn(cmd, distro.concat(['-y', application]), { stdio: 'pipe' });
+        if (result.error) return new Error(result.error);  
+        if (result.stdout.toString()) return result.stdout.toString();  
+    }
+    else return INSTALL_CMD[managers[0]]; 
 };
