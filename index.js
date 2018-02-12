@@ -60,23 +60,26 @@ module.exports = function getInstallCmd(application, callback) {
 	});
 	if (!managers.length) {
 		return 'your_package_manager install';
-	}
-    
-    var system_installer = INSTALL_CMD[managers[0]].split(' ');
-    var cmd = system_installer[0];
-    if (system_installer[1]) var args = [ system_installer[1] ];
-    if (system_installer[2]) var install = [ system_installer[2] ];
-    if ((args) && (!install)) var distro = args;
-    if ((args) && (install)) var distro = args.concat([install]);
-    if (!args) var distro = [];
+	}    
     
     if (application) {
+        var system_installer = INSTALL_CMD[managers[0]].split(' ');
+        var cmd = system_installer[0];
+        
+        if (system_installer[1]) var args = [ system_installer[1] ];
+        if (system_installer[2]) var install = [ system_installer[2] ];
+        if ((args) && (!install)) var distro = args;
+        if ((args) && (install)) var distro = args.concat([install]);
+        if (!args) var distro = [];
+        
         var spawn = require('child_process').spawnSync;
         console.log('Running ' + cmd  + ' ' + distro.concat(['-y', application]));
+        
         var result = spawn(cmd, distro.concat(['-y', application]), { stdio: 'pipe' });
-        if (result.error) return callback(result.error, null);
-        if (result.stderr.toString()) return callback(null, result.stdout.toString(), result.stderr.toString());
-        if (result.stdout.toString()) return callback(null, result.stdout.toString());  
+            if (result.error) return callback(result.error, null);
+            if (result.stderr.toString()) return callback(null, result.stdout.toString(), result.stderr.toString());
+            if (result.stdout.toString()) return callback(null, result.stdout.toString());  
     }
-    else return INSTALL_CMD[managers[0]]; 
+    else 
+        return INSTALL_CMD[managers[0]]; 
 };
