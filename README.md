@@ -1,23 +1,24 @@
-[![npm version](https://badge.fury.io/js/system-install.svg)](https://badge.fury.io/js/system-install) [![Build Status](https://travis-ci.org/arve0/system-install.svg?branch=master)](https://travis-ci.org/arve0/system-install)
+ [![Build Status](https://travis-ci.org/techno-express/system-install.svg?branch=installer)](https://travis-ci.org/techno-express/system-install)[![Maintainability](https://api.codeclimate.com/v1/badges/54f89d3ae887724ceb93/maintainability)](https://codeclimate.com/github/techno-express/system-install/maintainability)[![Coverage Status](https://coveralls.io/repos/github/techno-express/system-install/badge.svg?branch=installer)](https://coveralls.io/github/techno-express/system-install?branch=installer)
 
-# system-install
+# system-installer
 
 Get the install command for the system packaging manager, e.g. `sudo apt-get install` for Debian-based systems.
 
-`system-install` will try to find which system packaging is installed for the given `process.platform`. If no system package manager is found, `'your_package_manager install'` is returned.
+`system-installer` will try to find which system packaging is installed for the given `process.platform`. If no system package manager is found, `'your_package_manager install'` is returned.
 
 ## Install
 ```sh
-npm install system-install
+npm install system-installer
 ```
 
 ## Usage
 
 ### Node
 ```js
-const mngr = require('system-install')();
+const mngr = require('system-installer')();
 /* - 'brew install' on OS X if homebrew is installed.
  * - 'sudo apt-get install' on debian platforms.
+ * - 'sudo yum install' on red hat platforms.
  * - 'your_package_manager install' if no package manager is found.
  *
  * Throws if `process.platform` is none of darwin, freebsd, linux, sunos or win32.
@@ -28,8 +29,8 @@ console.log(`Please install pandoc: ${mngr} pandoc`);
 
 ### CLI
 ```sh
-$ npm i -g system-install
-$ system-install
+$ npm i -g system-installer
+$ system-installer
 brew install
 ```
 

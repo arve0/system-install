@@ -60,24 +60,28 @@ module.exports = function getInstallCmd(application, callback) {
 	});
 	if (!managers.length) {
 		return 'your_package_manager install';
-	}    
+	}   
+
+    var system_installer = INSTALL_CMD[managers[0]].split(' ');
+    var cmd = system_installer[0];
+    if (system_installer[1]) var args = [ system_installer[1] ];
+    if (system_installer[2]) var install = [ system_installer[2] ];
     
     if (application) {
         var whattoinstall = (Array.isArray(application)) ? ['-y'].concat(application) : ['-y'].concat([application]);        
         var distro = whattoinstall;
-        
-        var system_installer = INSTALL_CMD[managers[0]].split(' ');
-        if (system_installer[1]) var args = [ system_installer[1] ];
-        if (system_installer[2]) var install = [ system_installer[2] ];
         if ((args) && (!install)) distro = args.concat(whattoinstall);
         if ((args) && (install)) distro = args.concat(install).concat(whattoinstall);
         
-        console.log('Running ' + system_installer[0]  + ' ' + distro);        
-        var result = require('child_process').spawnSync(system_installer[0], distro, { stdio: 'pipe' });
-            if (result.error) return callback(result.error, null);
-            if (result.stderr.toString()) return callback(null, result.stdout.toString(), result.stderr.toString());
-            if (result.stdout.toString()) return callback(null, result.stdout.toString());  
+        console.log('Running ' + cmd  + ' ' + distro);        
+        var result = require('child_process').spawnSync(cmd, distro, { stdio: 'pipe' });
+        if (result.error) return callback(result.error, null);
+        return callback(null, result.stdout.toString(), result.stderr.toString());
     }
     else 
-        return INSTALL_CMD[managers[0]]; 
+        return {
+            needsudo: (cmd=='sudo') ? true : false,
+            packager: (!install) ? cmd : args,
+            installer: INSTALL_CMD[managers[0]];
+            } 
 };

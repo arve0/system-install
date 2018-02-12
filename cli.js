@@ -1,4 +1,4 @@
 #!/usr/bin/env node
-var i = require('system-install')();
+var i = require('system-installer')();
 
-console.log(i);
+console.log(i.installer);

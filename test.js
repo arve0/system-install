@@ -1,4 +1,4 @@
 var assert = require('assert');
 var i = require('./index.js')();
 
-assert.equal(i, 'sudo apt-get install');
+assert.equal(i.installer, 'sudo apt-get install');
