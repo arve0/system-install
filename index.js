@@ -28,6 +28,13 @@ var PKG_MANAGERS = {
 	// netbsd?
 };
 
+var defaultCallback = function (err, stdout, stderr) {
+    if (err) return console.error(err);
+
+    if (stderr) console.log(stderr);
+    if (stdout) console.log(stdout);
+};
+    
 /**
  * Gets the system packaging install command.
  *
@@ -36,7 +43,8 @@ var PKG_MANAGERS = {
  *                   Defaults to 'your_package_manager install' if no package manager is found.
  * @throws Throws if `process.platform` is none of darwin, freebsd, linux, sunos or win32.
  */
-module.exports = function getInstallCmd(application) {
+module.exports = function getInstallCmd(application, callback) {
+    if (!callback) callback = defaultCallback;
 	var managers = PKG_MANAGERS[process.platform];
 	if (!managers || !managers.length) {
 		throw new Error('unknown platform \'' + process.platform + '\'');
@@ -66,8 +74,9 @@ module.exports = function getInstallCmd(application) {
         var spawn = require('child_process').spawnSync;
         console.log('Running ' + cmd  + ' ' + distro.concat(['-y', application]));
         var result = spawn(cmd, distro.concat(['-y', application]), { stdio: 'pipe' });
-        if (result.error) return new Error(result.error);  
-        if (result.stdout.toString()) return result.stdout.toString();  
+        if (result.error) return callback(result.error, null);
+        if (result.stderr.toString()) return callback(null, result.stdout.toString(), result.stderr.toString());
+        if (result.stdout.toString()) return callback(null, result.stdout.toString());  
     }
     else return INSTALL_CMD[managers[0]]; 
 };
