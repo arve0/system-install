@@ -63,19 +63,17 @@ module.exports = function getInstallCmd(application, callback) {
 	}    
     
     if (application) {
-        var system_installer = INSTALL_CMD[managers[0]].split(' ');
-        var cmd = system_installer[0];
+        var whattoinstall = (Array.isArray(application)) ? ['-y'].concat(application) : ['-y'].concat([application]);        
+        var distro = whattoinstall;
         
+        var system_installer = INSTALL_CMD[managers[0]].split(' ');
         if (system_installer[1]) var args = [ system_installer[1] ];
         if (system_installer[2]) var install = [ system_installer[2] ];
-        if ((args) && (!install)) var distro = args;
-        if ((args) && (install)) var distro = args.concat([install]);
-        if (!args) var distro = [];
+        if ((args) && (!install)) distro = args.concat(whattoinstall);
+        if ((args) && (install)) distro = args.concat(install).concat(whattoinstall);
         
-        var spawn = require('child_process').spawnSync;
-        console.log('Running ' + cmd  + ' ' + distro.concat(['-y', application]));
-        
-        var result = spawn(cmd, distro.concat(['-y', application]), { stdio: 'pipe' });
+        console.log('Running ' + system_installer[0]  + ' ' + distro;        
+        var result = require('child_process').spawnSync(system_installer[0], distro, { stdio: 'pipe' });
             if (result.error) return callback(result.error, null);
             if (result.stderr.toString()) return callback(null, result.stdout.toString(), result.stderr.toString());
             if (result.stdout.toString()) return callback(null, result.stdout.toString());  
