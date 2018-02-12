@@ -72,7 +72,7 @@ module.exports = function getInstallCmd(application, callback) {
         if ((args) && (!install)) distro = args.concat(whattoinstall);
         if ((args) && (install)) distro = args.concat(install).concat(whattoinstall);
         
-        console.log('Running ' + system_installer[0]  + ' ' + distro;        
+        console.log('Running ' + system_installer[0]  + ' ' + distro);        
         var result = require('child_process').spawnSync(system_installer[0], distro, { stdio: 'pipe' });
             if (result.error) return callback(result.error, null);
             if (result.stderr.toString()) return callback(null, result.stdout.toString(), result.stderr.toString());
