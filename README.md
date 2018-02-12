@@ -1,5 +1,5 @@
- [![Build Status](https://travis-ci.org/techno-express/system-install.svg?branch=installer)](https://travis-ci.org/techno-express/system-install)[![Maintainability](https://api.codeclimate.com/v1/badges/54f89d3ae887724ceb93/maintainability)](https://codeclimate.com/github/techno-express/system-install/maintainability)[![Coverage Status](https://coveralls.io/repos/github/techno-express/system-install/badge.svg?branch=installer)](https://coveralls.io/github/techno-express/system-install?branch=installer)
-
+[![Dependencies Status](http://img.shields.io/david/techno-express/system-install.svg)](https://david-dm.org/techno-express/system-install)
+[![Release](http://img.shields.io/npm/v/system-installer.svg)](https://www.npmjs.org/package/system-installer) [![Build Status](https://travis-ci.org/techno-express/system-install.svg?branch=installer)](https://travis-ci.org/techno-express/system-install)[![![Maintainability](https://api.codeclimate.com/v1/badges/54f89d3ae887724ceb93/maintainability)](https://codeclimate.com/github/techno-express/system-install/maintainability)[![Coverage Status](https://coveralls.io/repos/github/techno-express/system-install/badge.svg?branch=installer)](https://coveralls.io/github/techno-express/system-install?branch=installer)
 # system-installer
 
 Get the install command for the system packaging manager, e.g. `sudo apt-get install` for Debian-based systems.

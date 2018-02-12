@@ -82,6 +82,6 @@ module.exports = function getInstallCmd(application, callback) {
         return {
             needsudo: (cmd=='sudo') ? true : false,
             packager: (!install) ? cmd : args,
-            installer: INSTALL_CMD[managers[0]];
+            installer: INSTALL_CMD[managers[0]]
             } 
 };
