@@ -7,13 +7,13 @@
     "system-installer": "./cli.js"
   },
   "scripts": {
-    "preversion": "babel --presets es2015 index.babel.js -o index.js && git add index.js",
-    "postpublish": "git push && git push --tags",
-    "test": "node test.js"
+    "test": "mocha",
+    "coverage": "istanbul cover node_modules/mocha/bin/_mocha --dir .tmp/coverage",
+    "coveralls": "npm install coveralls && cat .tmp/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/arve0/system-install.git"
+    "url": "git+https://github.com/techno-express/system-install.git"
   },
   "keywords": [
     "apt-get",
@@ -35,6 +35,9 @@
     "manager"
   ],
   "author": "Arve Seljebu",
+  "contributors": [
+    "l. stubbs <technoexpressnet@gmail.com>"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/arve0/system-install/issues"
@@ -44,7 +47,9 @@
     "which": "^1.2.9"
   },
   "devDependencies": {
-    "babel-cli": "^6.9.0",
-    "babel-preset-es2015": "^6.9.0"
+    "chai": "^4.1.2",
+    "coveralls": "^2.13.3",
+    "istanbul": "^0.4.5",
+    "mocha": "^5.0.0"
   }
 }

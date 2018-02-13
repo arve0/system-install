@@ -1,4 +1,5 @@
-'use strict';
+(function () {
+    'use strict';
 
 var which = require('which');
 
@@ -7,6 +8,7 @@ var INSTALL_CMD = {
 	port: 'sudo port install',
 	pkgin: 'sudo pkgin install',
 	choco: 'choco install',
+	powershell: "powershell Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))",
 	'apt-get': 'sudo apt-get install',
 	yum: 'sudo yum install',
 	dnf: 'sudo dnf install',
@@ -16,72 +18,113 @@ var INSTALL_CMD = {
 	pacman: 'sudo pacman -S',
 	pkg: 'pkg install',
 	pkg_add: 'pkg_add',
-	crew: 'crew install'
+	crew: 'crew install',
+	test: 'dummy installer'
 };
 
 var PKG_MANAGERS = {
 	darwin: ['brew', 'port', 'pkgin'],
-	win32: ['choco'],
+	win32: ['choco', 'powershell'],
 	linux: ['apt-get', 'yum', 'dnf', 'nix', 'zypper', 'emerge', 'pacman', 'crew'],
 	freebsd: ['pkg', 'pkg_add'],
-	sunos: ['pkg']
-	// netbsd?
-};
-
-var defaultCallback = function (err, stdout, stderr) {
-    if (err) return console.error(err);
-
-    if (stderr) console.log(stderr);
-    if (stdout) console.log(stdout);
+	sunos: ['pkg'],
+	test: ['dummy']
+	//netbsd?
 };
     
 /**
  * Gets the system packaging install command.
  *
- * @returns {string} System packaging install command.
+ * @returns {object} { needsudo: boolean `true or false`, 
+ *                     packager: string `your system packaging command`, 
+ *             installercommand: string `full install command` } 
  *                   E.g. 'sudo apg-get install' for Debian based systems.
  *                   Defaults to 'your_package_manager install' if no package manager is found.
  * @throws Throws if `process.platform` is none of darwin, freebsd, linux, sunos or win32.
  */
-module.exports = function getInstallCmd(application, callback) {
-    if (!callback) callback = defaultCallback;
-	var managers = PKG_MANAGERS[process.platform];
-	if (!managers || !managers.length) {
-		throw new Error('unknown platform \'' + process.platform + '\'');
-	}
-	managers = managers.filter(function (mng) {
-		try {
-			// TODO: Optimize?
-			which.sync(mng);
-			return true;
-		} catch (e) {
-			return false;
-		}
-	});
-	if (!managers.length) {
-		return 'your_package_manager install';
-	}   
+module.exports = getInstallCmd.packager = getInstallCmd; 
 
-    var system_installer = INSTALL_CMD[managers[0]].split(' ');
-    var cmd = system_installer[0];
-    if (system_installer[1]) var args = [ system_installer[1] ];
-    if (system_installer[2]) var install = [ system_installer[2] ];
+    getInstallCmd.packager = function packager() {
+        var managers = PKG_MANAGERS[process.platform];
+        if (!managers || !managers.length) {
+            return new Error('unknown platform \'' + process.platform + '\'');
+        }
+        managers = managers.filter(function (mng) {
+            try {
+                // TODO: Optimize?
+                which.sync(mng);
+                return true;
+            } catch (e) {
+                return false;
+            }
+        });
+        if (!managers.length) {
+            return new Error('your_package_manager install');
+        }   
+
+        var system_installer = INSTALL_CMD[managers[0]].split(' ');  
+        return {
+            needsudo: (system_installer[0]=='sudo') ? true : false,
+            packager: (!system_installer[2]) ? system_installer[0] : system_installer[1],
+            installercommand: INSTALL_CMD[managers[0]]
+            } 
+    };  
     
-    if (application) {
-        var whattoinstall = (Array.isArray(application)) ? ['-y'].concat(application) : ['-y'].concat([application]);        
+/**
+ * Install package using the system packaging manager command.
+ *
+ * @returns {string} Output of spawn command.
+ *                   E.g. 'sudo apg-get install' for Debian based systems.
+ *                   Defaults to 'your_package_manager install' if no package manager is found.
+ * @throws Throws if `process.platform` is none of darwin, freebsd, linux, sunos or win32.
+ */
+    getInstallCmd.install = function install(application) {
+      return new Promise(function (resolve, reject) {
+        if (!application) return reject("Error: No package, application name missing.");    
+    
+        var managers = PKG_MANAGERS[process.platform];
+        if (!managers || !managers.length) {
+            return reject('unknown platform \'' + process.platform + '\'');
+        }
+    
+        managers = managers.filter(function (mng) {
+            try {
+                // TODO: Optimize?
+                which.sync(mng);
+                return true;
+            } catch (e) {
+                return false;
+            }
+        });
+    
+        if (!managers.length) {
+            return reject('your_package_manager install');
+        }   
+
+        var system_installer = INSTALL_CMD[managers[0]].split(' ');
+        var cmd = system_installer[0];
+        if (system_installer[1]) var args = [ system_installer[1] ];
+        if (system_installer[2]) var install = [ system_installer[2] ];
+
+        var whattoinstall = (Array.isArray(application)) ? [].concat(application).concat(['-y']) : [].concat([application]).concat(['-y']);        
         var distro = whattoinstall;
         if ((args) && (!install)) distro = args.concat(whattoinstall);
         if ((args) && (install)) distro = args.concat(install).concat(whattoinstall);
         
-        console.log('Running ' + cmd  + ' ' + distro);        
-        var result = require('child_process').spawnSync(cmd, distro, { stdio: 'pipe' });
-        if (result.error) return callback(result.error, null);
-        return callback(null, result.stdout.toString(), result.stderr.toString());
+        if (cmd!='powershell') {
+            console.log('Running ' + cmd  + ' ' + distro);        
+            var result = require('child_process').spawn(cmd, distro, { stdio: 'pipe' });
+            result.on('error', (err) => { return reject(result.error); }); 
+            result.stdout.on('data', function(data) { console.log(data.toString()); });
+            result.stderr.on('data', function(data) { console.log(data.toString()); });
+            result.on('close', function(code) { resolve(code) });             
+        }  
+      });        
     }
-    else 
-        return {
-            needsudo: (cmd=='sudo') ? true : false,
-            packager: (!install) ? cmd : args,
-            installer: INSTALL_CMD[managers[0]]
-            } 
-};
+    
+    getInstallCmd();
+
+    function getInstallCmd() {
+    }
+
+})();
