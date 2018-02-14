@@ -46,6 +46,9 @@
   "dependencies": {
     "which": "^1.2.9"
   },
+  "optionalDependencies": {
+    "powershell": "^2.2.2"
+  },
   "devDependencies": {
     "chai": "^4.1.2",
     "coveralls": "^2.13.3",
