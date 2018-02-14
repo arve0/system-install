@@ -1,6 +1,6 @@
 {
   "name": "system-installer",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Get the install command for the system package manager or install the package",
   "main": "index.js",
   "bin": {
@@ -32,7 +32,8 @@
     "platform",
     "cross-platform",
     "package",
-    "manager"
+    "manager",
+    "installer"
   ],
   "author": "Arve Seljebu",
   "contributors": [
@@ -45,9 +46,6 @@
   "homepage": "https://github.com/arve0/system-install#readme",
   "dependencies": {
     "which": "^1.2.9"
-  },
-  "optionalDependencies": {
-    "powershell": "^2.2.2"
   },
   "devDependencies": {
     "chai": "^4.1.2",
