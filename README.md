@@ -5,6 +5,8 @@ system-installer
 
 > Get the install command for the system packaging manager, e.g. `sudo apt-get install` for Debian-based systems.
 
+This package differs from fork https://github.com/arve0/system-install in that it will also install the package if pass the package name and all necessary dependent packages from within Node JS onto host.
+
 `system-installer` will try to find which system packaging is installed for the given `process.platform`. If no system package manager is found, `'your_package_manager install'` is returned.
 
 ## Install
@@ -16,7 +18,7 @@ npm install system-installer
 
 ### Node
 ```js
-const mngr = require('system-installer')();
+const mngr = require('system-installer').packager();
 /* - 'brew install' on OS X if homebrew is installed.
  * - 'sudo apt-get install' on debian platforms.
  * - 'sudo yum install' on red hat platforms.
@@ -25,7 +27,20 @@ const mngr = require('system-installer')();
  * Throws if `process.platform` is none of darwin, freebsd, linux, sunos or win32.
  */
 
-console.log(`Please install pandoc: ${mngr} pandoc`);
+console.log(`Please install pandoc: ${mngr.installercommand} pandoc`);
+```
+
+###  Install `vim` package onto host using system's default application manager.
+* Returns a Promise
+```
+const mngr = require('system-installer').installer;
+mngr('vim') 
+.then(function(){
+    console.log('Successfully installed vim');
+})
+.catch(function(err) {
+    console.log(err);
+});
 ```
 
 ### CLI
