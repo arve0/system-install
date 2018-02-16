@@ -35,8 +35,9 @@ console.log(`Please install pandoc: ${mngr.installercommand} pandoc`);
 ```
 const mngr = require('system-installer').installer;
 mngr('vim') 
-.then(function(){
-    console.log('Successfully installed vim');
+.then(function(data){
+	// returns installation output 
+    console.log(data);
 })
 .catch(function(err) {
     console.log(err);
