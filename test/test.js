@@ -104,7 +104,8 @@ describe('Method: `installer` install package `???`', function() {
 describe('Method: `installer` install package `vim`', function() {
     it('should return on successful install or errors if windows', function (done) {
         installer('vim')
-        .then(function() {
+        .then(function(data) {
+			expect(data).to.be.a('string');
             done();          
         })
         .catch(function(err) {
@@ -117,7 +118,8 @@ describe('Method: `installer` install package `vim`', function() {
 describe('Method: `installer` install packages `unzip` and `nano`', function() {
     it('should return on successful install of multiple packages or print error log if windows platform', function (done) {
         installer(['unzip','nano'])
-        .then(function() {
+        .then(function(data) {
+			expect(data).to.be.a('string');
             done();          
         })
         .catch(function(err) {
