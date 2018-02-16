@@ -84,6 +84,7 @@ module.exports = getInstallCmd.packager = getInstallCmd;
  * @throws Throws if `process.platform` is none of darwin, freebsd, linux, sunos or win32.
  */
     getInstallCmd.installer = function installer(application) {
+		var installoutput = '';
       return new Promise(function (resolve, reject) {
         if (!application) return reject(Error("Error: No package, application name missing."));  
         
@@ -101,10 +102,10 @@ module.exports = getInstallCmd.packager = getInstallCmd;
             console.log('Running ' + cmd  + ' ' + distro);        
             var result = require('child_process').spawn(cmd, distro, { stdio: 'pipe' });
             result.on('error', (err) => { return reject(Error(err)); }); 
-            result.stdout.on('data', function(data) { console.log(data.toString()); });
+            result.stdout.on('data', function(data) { installoutput += data.toString(); });
             result.stderr.on('data', function(data) { return reject(Error(data.toString())); });
-            result.on('close', function(code) { return resolve(code) });    
-            result.on('exit', function(code) { return resolve(code) });    
+            result.on('close', function(code) { return resolve(installoutput) });    
+            result.on('exit', function(code) { return resolve(installoutput) });    
         } else return reject(Error('No windows package manager installed!'));
         /*else if (process.platform=='win32') { 
             var PowerShell = require("powershell");
