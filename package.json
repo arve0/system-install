@@ -1,7 +1,7 @@
 {
   "name": "system-installer",
-  "version": "1.0.6",
-  "description": "Get the install command for the system package manager or install the package",
+  "version": "1.0.7",
+  "description": "Get the install command for the system package manager or auto install the package",
   "main": "index.js",
   "bin": {
     "system-installer": "./cli.js"
