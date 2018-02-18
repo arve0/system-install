@@ -18,7 +18,8 @@ var INSTALL_CMD = {
 	pacman: 'sudo pacman -S',
 	pkg: 'pkg install',
 	pkg_add: 'pkg_add',
-	crew: 'crew install'
+	crew: 'crew install',
+	test: 'sudo command'
 };
 
 var PKG_MANAGERS = {
@@ -27,8 +28,8 @@ var PKG_MANAGERS = {
 	linux: ['apt-get', 'yum', 'dnf', 'nix', 'zypper', 'emerge', 'pacman', 'crew'],
 	freebsd: ['pkg', 'pkg_add'],
 	sunos: ['pkg'],
-	test: ['dummy']
-	//netbsd?
+	netbsd: ['none'],
+	test: ['test']
 };
 
 function package_manager(reject) {

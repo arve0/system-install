@@ -29,15 +29,29 @@ describe('Method: `packager` for platform set to `other`', function() {
     it('should return an error for unknown platform', function (done) {
         expect(system()).to.be.an.instanceof(Error);
         done();
-    });    	
+    });  	
 });    
-	
-	
+		
 describe('Method: `packager` for platform set to `test`', function() {    
     // save original process.platform    
     before(function() { this.originalPlatform = Object.getOwnPropertyDescriptor(process, 'platform');
     // redefine process.platform
         Object.defineProperty(process, 'platform', { value: 'test' }); });
+    // restore original process.platform
+    after(function() { Object.defineProperty(process, 'platform', this.originalPlatform); });
+
+    it('should return `true` for need sudo', function (done) {
+		var sudo = system();
+        expect(sudo.needsudo).to.equal(true);
+        done();
+    });    	
+});  	
+
+describe('Method: `packager` for platform set to `netbsd`', function() {    
+    // save original process.platform    
+    before(function() { this.originalPlatform = Object.getOwnPropertyDescriptor(process, 'platform');
+    // redefine process.platform
+        Object.defineProperty(process, 'platform', { value: 'netbsd' }); });
     // restore original process.platform
     after(function() { Object.defineProperty(process, 'platform', this.originalPlatform); });
         
@@ -82,7 +96,7 @@ describe('Method: `installer` for platform set to `test`', function() {
     // restore original process.platform
     after(function() { Object.defineProperty(process, 'platform', this.originalPlatform); });
         
-    it('should return an error for no package manager found', function (done) {
+    it('should return an error for no real package manager command', function (done) {
         installer('winrar')
         .catch(function(err) {
             expect(err).to.be.an.instanceof(Error);
