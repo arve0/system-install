@@ -31,6 +31,20 @@ describe('Method: `packager` for platform set to `other`', function() {
         done();
     });  	
 });    
+
+describe('Method: `packager` for platform set to `netbsd`', function() {    
+    // save original process.platform    
+    before(function() { this.originalPlatform = Object.getOwnPropertyDescriptor(process, 'platform');
+    // redefine process.platform
+        Object.defineProperty(process, 'platform', { value: 'netbsd' }); });
+    // restore original process.platform
+    after(function() { Object.defineProperty(process, 'platform', this.originalPlatform); });
+        
+    it('should return an error for no package manager found', function (done) {
+        expect(system()).to.be.an.instanceof(Error);
+        done();
+    });    	
+});    
 		
 describe('Method: `packager` for platform set to `test`', function() {    
     // save original process.platform    
@@ -47,19 +61,20 @@ describe('Method: `packager` for platform set to `test`', function() {
     });    	
 });  	
 
-describe('Method: `packager` for platform set to `netbsd`', function() {    
+describe('Method: `packager` for platform set to `win32`', function() {    
     // save original process.platform    
     before(function() { this.originalPlatform = Object.getOwnPropertyDescriptor(process, 'platform');
     // redefine process.platform
-        Object.defineProperty(process, 'platform', { value: 'netbsd' }); });
+        Object.defineProperty(process, 'platform', { value: 'win32' }); });
     // restore original process.platform
     after(function() { Object.defineProperty(process, 'platform', this.originalPlatform); });
-        
-    it('should return an error for no package manager found', function (done) {
-        expect(system()).to.be.an.instanceof(Error);
+
+    it('should return `false` for need sudo', function (done) {
+		var sudo = system();
+        expect(sudo.needsudo).to.not.equal(true);
         done();
     });    	
-});    
+});
 	
 describe('Method: `installer`', function() {
     it('should return an error for no package, application name missing', function (done) {
@@ -103,6 +118,23 @@ describe('Method: `installer` for platform set to `test`', function() {
             done();            
         });
     });  
+});
+
+describe('Method: `packager` for platform set to `win32`', function() {    
+    // save original process.platform    
+    before(function() { this.originalPlatform = Object.getOwnPropertyDescriptor(process, 'platform');
+    // redefine process.platform
+        Object.defineProperty(process, 'platform', { value: 'win32' }); });
+    // restore original process.platform
+    after(function() { Object.defineProperty(process, 'platform', this.originalPlatform); });
+
+	it('should return an error for no windows package manager installed', function (done) {
+        installer('winrar')
+        .catch(function(err) {
+            expect(err).to.be.an.instanceof(Error);
+            done();            
+        });
+    });   	
 });
 
 describe('Method: `installer` install package `???`', function() {
