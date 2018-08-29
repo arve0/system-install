@@ -7,5 +7,4 @@ script: 'npm run coverage'
 before_script: 
   - sudo rm /var/lib/dpkg/lock    
   - sudo rm /var/cache/apt/archives/lock
-  - sudo systemctl stop apt-daily.timer
 after_script: 'npm run coveralls'
