@@ -137,6 +137,16 @@ describe('Method: `packager` for platform set to `win32`', function() {
     });   	
 });
 
+describe('Method: `installer` install package `???`', function() {
+    it('should return an error for any issues installing package', function (done) {
+        installer('???')
+        .catch(function(err) {
+            expect(err).to.be.an.instanceof(Error);
+            done();            
+        });
+    });    	
+});
+
 describe('Method: `installer` install package `vim`', function() {
     it('should return on successful install or errors if windows', function (done) {
         installer('vim')
