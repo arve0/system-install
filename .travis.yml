@@ -7,5 +7,5 @@ script: 'npm run coverage'
 before_script: 
   - sudo rm -f /var/lib/dpkg/lock    
   - sudo rm -f /var/cache/apt/archives/lock
-  - sudo dpkg --configure -a
+  - sudo rm -f /var/lib/apt/lists/lock
 after_script: 'npm run coveralls'
