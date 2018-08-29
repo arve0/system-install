@@ -5,6 +5,7 @@ node_js:
   - "node"
 script: 'npm run coverage'
 before_script: 
-  - sudo rm /var/lib/dpkg/lock    
-  - sudo rm /var/cache/apt/archives/lock
+  - sudo rm -f /var/lib/dpkg/lock    
+  - sudo rm -f /var/cache/apt/archives/lock
+  - sudo dpkg --configure -a
 after_script: 'npm run coveralls'
