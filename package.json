@@ -1,6 +1,6 @@
 {
   "name": "system-installer",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Get the install command for the system package manager or auto install the package",
   "main": "index.js",
   "bin": {
@@ -45,7 +45,7 @@
   },
   "homepage": "https://github.com/arve0/system-install#readme",
   "dependencies": {
-    "which": "^1.2.9"
+    "which": "^1.3.1"
   },
   "devDependencies": {
     "chai": "^4.1.2",
