@@ -175,4 +175,4 @@ describe('Method: `installer` install packages `unzip` and `nano`', function() {
         }); 
     });    	
 });
-
+*/
