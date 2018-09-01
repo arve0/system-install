@@ -136,7 +136,7 @@ describe('Method: `packager` for platform set to `win32`', function() {
         });
     });   	
 });
-/*
+
 describe('Method: `installer` install package `???`', function() {
     it('should return an error for any issues installing package', function (done) {
         installer('???')
@@ -175,4 +175,3 @@ describe('Method: `installer` install packages `unzip` and `nano`', function() {
         }); 
     });    	
 });
-*/
