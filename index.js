@@ -19,8 +19,7 @@
         pacman: 'sudo pacman -S',
         pkg: 'pkg install',
         pkg_add: 'pkg_add',
-        crew: 'crew install',
-        test: 'sudo command'
+        crew: 'crew install'
     };
 
     var PKG_MANAGERS = {
@@ -29,8 +28,7 @@
         linux: ['apt-get', 'yum', 'dnf', 'nix', 'zypper', 'emerge', 'pacman', 'crew'],
         freebsd: ['pkg', 'pkg_add'],
         sunos: ['pkg'],
-        netbsd: ['none'],
-        test: ['test']
+        netbsd: ['none']
     };
 
     function package_manager(reject) {
@@ -78,8 +76,8 @@
         const system_installer = package_manager();
         if (system_installer[0])
             return {
-                needSudo: (system_installer[0] == 'sudo') ? true : false,
-                packager: (!system_installer[2]) ? system_installer[0] : system_installer[1],
+                needSudo: ((system_installer[0] == 'sudo') ? true : false),
+                packager: ((!system_installer[2]) ? system_installer[0] : system_installer[1]),
                 installerCommand: system_installer.join(' ')
             }
         else
@@ -123,8 +121,7 @@
                     installOutput += data.toString();
                 });
                 spawn.stderr.on('data', (data) => reject(Error(data.toString())));
-                /*else return reject(Error('No windows package manager installed!'));*/
-            } else if (process.platform == 'win32') {
+            } else if (process.platform == 'win32' && cmd == 'powershell') {
                 const PowerShell = require("powershell");
                 console.log('Download and Install Chocolatey');
                 const ps = new PowerShell("Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))", {
@@ -148,12 +145,13 @@
                     spawn.stdout.on('data', (data) => console.log(data.toString()));
                     spawn.stderr.on('data', (data) => reject(Error(data.toString())));
                 });
-            }
+            } else
+                return reject(Error('No windows package manager installed!'));
         });
     }
 
     installCommand();
 
-    function installCommand() {}
+    function installCommand() { }
 
 })();

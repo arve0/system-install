@@ -1,6 +1,6 @@
 {
   "name": "system-installer",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Get the install command for the system package manager or auto install the package",
   "main": "index.js",
   "bin": {
@@ -8,8 +8,7 @@
   },
   "scripts": {
     "test": "mocha",
-    "coverage": "istanbul cover node_modules/mocha/bin/_mocha --dir .tmp/coverage",
-    "coveralls": "npm install coveralls && cat .tmp/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+    "coverage": "npx nyc@latest --reporter json --reporter text mocha -R list test/*.js && codecov -f coverage/coverage-final.json"
   },
   "repository": {
     "type": "git",
@@ -41,16 +40,15 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/arve0/system-install/issues"
+    "url": "https://github.com/techno-express/system-install/issues"
   },
-  "homepage": "https://github.com/arve0/system-install#readme",
+  "homepage": "https://github.com/techno-express/system-install#readme",
   "dependencies": {
     "which": "^1.3.1"
   },
   "devDependencies": {
+    "codecov": "^3.8.0",
     "chai": "^4.1.2",
-    "coveralls": "^3.0.0",
-    "istanbul": "^0.4.5",
-    "mocha": "^5.0.0"
+    "mocha": "^7.2.0"
   }
 }

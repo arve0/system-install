@@ -1,8 +1,9 @@
-var expect = require('chai').expect;
-var system = require('../index.js').packager;
-var installer = require('../index.js').installer;
+const expect = require('chai').expect;
+const system = require('../index.js').packager;
+const installer = require('../index.js').installer;
+var testPlatformData = '';
 
-describe('Method: `packager`', function() {
+describe('Method: `packager`', function () {
     it('should return an object', function (done) {
         expect(system()).to.be.an('object');
         done();
@@ -18,13 +19,15 @@ describe('Method: `packager`', function() {
     });
 });
 
-describe('Method: `packager` for platform set to `other`', function() {
+describe('Method: `packager` for platform set to `other`', function () {
     // save original process.platform
-    before(function() { this.originalPlatform = Object.getOwnPropertyDescriptor(process, 'platform');
-    // redefine process.platform
-        Object.defineProperty(process, 'platform', { value: 'other' }); });
+    before(function () {
+        this.originalPlatform = Object.getOwnPropertyDescriptor(process, 'platform');
+        // redefine process.platform
+        Object.defineProperty(process, 'platform', { value: 'other' });
+    });
     // restore original process.platform
-    after(function() { Object.defineProperty(process, 'platform', this.originalPlatform); });
+    after(function () { Object.defineProperty(process, 'platform', this.originalPlatform); });
 
     it('should return an error for unknown platform', function (done) {
         expect(system()).to.be.an.instanceof(Error);
@@ -32,13 +35,15 @@ describe('Method: `packager` for platform set to `other`', function() {
     });
 });
 
-describe('Method: `packager` for platform set to `netbsd`', function() {
+describe('Method: `packager` for platform set to `netbsd`', function () {
     // save original process.platform
-    before(function() { this.originalPlatform = Object.getOwnPropertyDescriptor(process, 'platform');
-    // redefine process.platform
-        Object.defineProperty(process, 'platform', { value: 'netbsd' }); });
+    before(function () {
+        this.originalPlatform = Object.getOwnPropertyDescriptor(process, 'platform');
+        // redefine process.platform
+        Object.defineProperty(process, 'platform', { value: 'netbsd' });
+    });
     // restore original process.platform
-    after(function() { Object.defineProperty(process, 'platform', this.originalPlatform); });
+    after(function () { Object.defineProperty(process, 'platform', this.originalPlatform); });
 
     it('should return an error for no package manager found', function (done) {
         expect(system()).to.be.an.instanceof(Error);
@@ -46,132 +51,143 @@ describe('Method: `packager` for platform set to `netbsd`', function() {
     });
 });
 
-describe('Method: `packager` for platform set to `test`', function() {
+describe('Method: `packager` for platform set to `win32`', function () {
     // save original process.platform
-    before(function() { this.originalPlatform = Object.getOwnPropertyDescriptor(process, 'platform');
-    // redefine process.platform
-        Object.defineProperty(process, 'platform', { value: 'test' }); });
-    // restore original process.platform
-    after(function() { Object.defineProperty(process, 'platform', this.originalPlatform); });
-
-    it('should return `true` for need sudo', function (done) {
-		var sudo = system();
-        expect(sudo.needSudo).to.equal(true);
-        done();
+    before(function () {
+        this.originalPlatform = Object.getOwnPropertyDescriptor(process, 'platform');
+        // redefine process.platform
+        Object.defineProperty(process, 'platform', { value: 'win32' });
     });
-});
-
-describe('Method: `packager` for platform set to `win32`', function() {
-    // save original process.platform
-    before(function() { this.originalPlatform = Object.getOwnPropertyDescriptor(process, 'platform');
-    // redefine process.platform
-        Object.defineProperty(process, 'platform', { value: 'win32' }); });
     // restore original process.platform
-    after(function() { Object.defineProperty(process, 'platform', this.originalPlatform); });
+    after(function () { Object.defineProperty(process, 'platform', this.originalPlatform); });
 
     it('should return `false` for need sudo', function (done) {
-		var sudo = system();
+        var sudo = system();
         expect(sudo.needSudo).to.not.equal(true);
         done();
     });
 });
 
-describe('Method: `installer`', function() {
+describe('Method: `installer`', function () {
     it('should return an error for no package, application name missing', function (done) {
         installer(null)
-        .catch(function(err) {
-            expect(err).to.be.an.instanceof(Error);
-            done();
-        });
+            .catch(function (err) {
+                expect(err).to.be.an.instanceof(Error);
+                done();
+            });
     });
 });
 
-describe('Method: `installer` for platform set to `other`', function() {
+describe('Method: `installer` for platform set to `other`', function () {
     // save original process.platform
-    before(function() { this.originalPlatform = Object.getOwnPropertyDescriptor(process, 'platform');
-    // redefine process.platform
-        Object.defineProperty(process, 'platform', { value: 'other' }); });
+    before(function () {
+        this.originalPlatform = Object.getOwnPropertyDescriptor(process, 'platform');
+        // redefine process.platform
+        Object.defineProperty(process, 'platform', { value: 'other' });
+    });
     // restore original process.platform
-    after(function() { Object.defineProperty(process, 'platform', this.originalPlatform); });
+    after(function () { Object.defineProperty(process, 'platform', this.originalPlatform); });
 
     it('should return an error for unknown platform', function (done) {
         installer('winrar')
-        .catch(function(err) {
-            expect(err).to.be.an.instanceof(Error);
-            done();
-        });
+            .catch(function (err) {
+                expect(err).to.be.an.instanceof(Error);
+                done();
+            });
     });
 });
 
-describe('Method: `installer` for platform set to `test`', function() {
+describe('Method: `installer` for platform set to `test`', function () {
     // save original process.platform
-    before(function() { this.originalPlatform = Object.getOwnPropertyDescriptor(process, 'platform');
-    // redefine process.platform
-        Object.defineProperty(process, 'platform', { value: 'test' }); });
+    before(function () {
+        this.originalPlatform = Object.getOwnPropertyDescriptor(process, 'platform');
+        // redefine process.platform
+        Object.defineProperty(process, 'platform', { value: 'test' });
+    });
     // restore original process.platform
-    after(function() { Object.defineProperty(process, 'platform', this.originalPlatform); });
+    after(function () { Object.defineProperty(process, 'platform', this.originalPlatform); });
 
     it('should return an error for no real package manager command', function (done) {
         installer('winrar')
-        .catch(function(err) {
-            expect(err).to.be.an.instanceof(Error);
-            done();
-        });
+            .catch(function (err) {
+                expect(err).to.be.an.instanceof(Error);
+                done();
+            });
     });
 });
 
-describe('Method: `packager` for platform set to `win32`', function() {
+describe('Method: `packager` for platform set to `win32`', function () {
     // save original process.platform
-    before(function() { this.originalPlatform = Object.getOwnPropertyDescriptor(process, 'platform');
-    // redefine process.platform
-        Object.defineProperty(process, 'platform', { value: 'win32' }); });
+    before(function () {
+        this.originalPlatform = Object.getOwnPropertyDescriptor(process, 'platform');
+        testPlatformData = this.originalPlatform.value;
+        // redefine process.platform
+        Object.defineProperty(process, 'platform', { value: 'win32' });
+    });
     // restore original process.platform
-    after(function() { Object.defineProperty(process, 'platform', this.originalPlatform); });
+    after(function () { Object.defineProperty(process, 'platform', this.originalPlatform); });
 
-	it('should return an error for no windows package manager installed', function (done) {
-        installer('winrar')
-        .catch(function(err) {
-            expect(err).to.be.an.instanceof(Error);
+    it('should return an error for no windows package manager installed or nothing', function (done) {
+        if (testPlatformData != 'win32') {
+            installer('winrar')
+                .catch(function (err) {
+                    expect(err).to.be.an.instanceof(Error);
+                    done();
+                });
+        } else {
             done();
-        });
+        }
     });
 });
 
-describe('Method: `installer` install package `???`', function() {
+describe('Method: `installer` install package `???`', function () {
     it('should return an error for any issues installing package', function (done) {
-        installer('???')
-        .catch(function(err) {
-            expect(err).to.be.an.instanceof(Error);
+        if (testPlatformData != 'win32') {
+            installer('???')
+                .catch(function (err) {
+                    expect(err).to.be.an.instanceof(Error);
+                    done();
+                });
+        } else {
             done();
-        });
+        }
     });
 });
 
-describe('Method: `installer` install package `vim`', function() {
+describe('Method: `installer` install package `vim`', function () {
     it('should return on successful install or errors if windows', function (done) {
-        installer('vim')
-        .then(function(data) {
-			expect(data).to.be.a('string');
+
+        if (testPlatformData != 'win32') {
+            installer('vim')
+                .then(function (data) {
+                    expect(data).to.be.a('string');
+                    done();
+                })
+                .catch(function (err) {
+                    expect(err).to.be.an.instanceof(Error);
+                    done();
+                });
+        } else {
             done();
-        })
-        .catch(function(err) {
-            expect(err).to.be.an.instanceof(Error);
-            done();
-        });
+        }
     });
 });
 
-describe('Method: `installer` install packages `unzip` and `nano`', function() {
+describe('Method: `installer` install packages `unzip` and `nano`', function () {
     it('should return on successful install of multiple packages or print error log if windows platform', function (done) {
-        installer(['unzip','nano'])
-        .then(function(data) {
-			expect(data).to.be.a('string');
+        if (testPlatformData != 'win32') {
+            installer(['unzip', 'nano'])
+                .then(function (data) {
+                    expect(data).to.be.a('string');
+                    done();
+                })
+                .catch(function (err) {
+                    console.log(err);
+                    expect(err).to.be.an.instanceof(Error);
+                    done();
+                });
+        } else {
             done();
-        })
-        .catch(function(err) {
-            console.log(err);
-            expect(err).to.be.an.instanceof(Error);
-            done();
-        });
+        }
     });
 });
