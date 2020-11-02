@@ -10,6 +10,7 @@ This package differs from fork https://github.com/arve0/system-install in that i
 `system-installer` will try to find which system packaging is installed for the given `process.platform`. If no system package manager is found, `'your_package_manager install'` is returned.
 
 ## Install
+
 ```sh
 npm install system-installer
 ```
@@ -17,8 +18,9 @@ npm install system-installer
 ## Usage
 
 ### Node
+
 ```js
-const mngr = require('system-installer').packager();
+const sysInstaller = require('system-installer').packager();
 /* - 'brew install' on OS X if homebrew is installed.
  * - 'sudo apt-get install' on debian platforms.
  * - 'sudo yum install' on red hat platforms.
@@ -27,16 +29,18 @@ const mngr = require('system-installer').packager();
  * Throws if `process.platform` is none of darwin, freebsd, linux, sunos or win32.
  */
 
-console.log(`Please install pandoc: ${mngr.installercommand} pandoc`);
+console.log(`Please install pandoc: ${sysInstaller.installerCommand} pandoc`);
 ```
 
-###  Install `vim` package onto host, using system's default package manager.
+### Install `vim` package onto host, using system's default package manager
+
 * Returns a Promise
-```
-const mngr = require('system-installer').installer;
-mngr('vim') 
+
+```sh
+const sysInstaller = require('system-installer').installer;
+sysInstaller('vim')
 .then(function(data){
-	// returns installation output 
+    // returns installation output
     console.log(data);
 })
 .catch(function(err) {
@@ -45,6 +49,7 @@ mngr('vim')
 ```
 
 ### CLI
+
 ```sh
 $ npm i -g system-installer
 $ system-installer
@@ -92,4 +97,3 @@ brew install
 [pkg_add]: https://www.freebsd.org/cgi/man.cgi?query=pkg_add&manpath=FreeBSD+7.2-RELEASE
 [chocolatey]: https://chocolatey.org
 [chromebrew]: https://github.com/skycocker/chromebrew
-
